@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.sethkroger.breakoidski.engine.Input;
 import com.sethkroger.breakoidski.model.Paddle;
 
 /**
@@ -19,9 +20,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private Context mContext;
     private SurfaceHolder mHolder;
-
-    private float mTouchX = 0.0f;
-    private float mTouchY = 0.0f;
 
     private Paddle mPaddle;
 
@@ -37,14 +35,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getActionMasked() == MotionEvent.ACTION_MOVE || event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-            mTouchX = event.getX();
-            mTouchY = event.getY();
-            mPaddle.setPosition(mTouchX);
+        boolean handled = Input.onTouchEvent(event);
+        if (handled) {
+            mPaddle.update();
             draw();
-            return true;
         }
-        return false;
+        return handled;
     }
 
     /**
@@ -72,7 +68,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         paint.setStrokeWidth(5.0f);
         paint.setColor(0xff336699);
 
-        canvas.drawCircle(mTouchX, mTouchY, 20.0f, paint);
+        canvas.drawCircle(Input.getTouchX(), Input.getTouchY(), 20.0f, paint);
     }
 
     @Override
@@ -82,7 +78,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        mPaddle.setPosition((int) mTouchX, (int) (height * PADDLE_TRACK_SCREEN_FRACTION));
+        mPaddle.setPosition(40, (int) (height * PADDLE_TRACK_SCREEN_FRACTION));
     }
 
     @Override
