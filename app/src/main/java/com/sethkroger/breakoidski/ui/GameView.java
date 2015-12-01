@@ -1,7 +1,10 @@
 package com.sethkroger.breakoidski.ui;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -27,12 +30,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
+        if (event.getActionMasked() == MotionEvent.ACTION_MOVE || event.getActionMasked() == MotionEvent.ACTION_DOWN) {
             mTouchX = event.getX();
             mTouchY = event.getY();
+            drawDot();
             return true;
         }
         return false;
+    }
+
+    private void drawDot() {
+        Canvas canvas = mHolder.lockCanvas();
+        Paint paint = new Paint();
+        paint.setStrokeWidth(5.0f);
+        paint.setColor(0xff336699);
+
+        canvas.drawARGB(255, 0, 0, 0);
+        canvas.drawCircle(mTouchX, mTouchY, 20.0f, paint);
+
+        mHolder.unlockCanvasAndPost(canvas);
     }
 
     @Override
