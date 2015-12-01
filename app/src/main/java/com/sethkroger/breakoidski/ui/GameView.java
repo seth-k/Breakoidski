@@ -22,6 +22,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super(context, attrs);
         mContext = context;
         mHolder = getHolder();
+        mHolder.addCallback(this);
     }
 
     @Override
