@@ -1,7 +1,6 @@
 package com.sethkroger.breakoidski.model;
 
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
@@ -34,7 +33,8 @@ public class Paddle extends GameObject {
      * since the paddle object is meant to side horizontally only.
      */
     public void setPosition(float x) {
-        mMatrix.setTranslate(x, mYpos);
+        mMatrix.setTranslate(x, mPosition.y);
+        mPosition.x = x;
     }
 
     /**

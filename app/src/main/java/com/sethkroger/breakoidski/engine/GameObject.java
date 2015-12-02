@@ -3,19 +3,19 @@ package com.sethkroger.breakoidski.engine;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PointF;
 
 /**
  * Created by Seth on 12/1/2015.
  */
 public abstract class GameObject {
-    protected Matrix mMatrix;
-    protected float mXpos;
-    protected float mYpos;
-    protected Paint mPaint;
+    protected Matrix mMatrix = new Matrix();
+    protected PointF mPosition = new PointF(0.0f, 0.0f);
+    protected PointF mVelocity = new PointF(0.0f, 0.0f);
+    protected PointF mAccel = new PointF(0.0f, 0.0f);
+    protected Paint mPaint = new Paint();
 
     public GameObject() {
-        mPaint = new Paint();
-        mMatrix = new Matrix();
     }
 
     /**
@@ -24,10 +24,10 @@ public abstract class GameObject {
      * @param x x coordinate in pixels
      * @param y y coordinate in pixels
      */
-    public void setPosition(int x, int y) {
+    public void setPosition(float x, float y) {
         mMatrix.setTranslate(x, y);
-        mXpos = x;
-        mYpos = y;
+        mPosition.x = x;
+        mPosition.y = y;
     }
 
     /**
