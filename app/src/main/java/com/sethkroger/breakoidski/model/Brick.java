@@ -15,7 +15,6 @@ public class Brick extends GameObject {
     public static final float BRICK_HALF_HEIGHT = 20.0f;
     public static final int DEFAULT_BRICK_COLOR = 0xffee2233;
 
-    private int mColor;
     private RectF mBrickShape;
 
     /**
@@ -30,7 +29,6 @@ public class Brick extends GameObject {
         mBrickShape = new RectF(-BRICK_HALF_WIDTH, -BRICK_HALF_HEIGHT, BRICK_HALF_WIDTH, BRICK_HALF_HEIGHT);
         setPosition(x,y);
         recomputeBounds();
-        mColor = color;
         mPaint.setColor(color);
         mPaint.setStyle(Paint.Style.FILL);
     }
@@ -42,7 +40,6 @@ public class Brick extends GameObject {
 
 
     public void setColor(int color) {
-        mColor = color;
         mPaint.setColor(color);
     }
 
