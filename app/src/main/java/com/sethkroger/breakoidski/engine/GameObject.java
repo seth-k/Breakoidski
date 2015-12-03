@@ -4,14 +4,16 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.RectF;
 
 /**
  * Created by Seth on 12/1/2015.
  */
-public abstract class GameObject {
+public class GameObject {
     protected Matrix mMatrix = new Matrix();
     protected PointF mPosition = new PointF(0.0f, 0.0f);
     protected PointF mVelocity = new PointF(0.0f, 0.0f);
+    protected RectF mBoundingRect;
     protected Paint mPaint = new Paint();
 
     public GameObject() {
@@ -59,6 +61,20 @@ public abstract class GameObject {
         mVelocity.y = vy;
     }
 
+    public RectF getBoundingRect() {
+        if (mBoundingRect != null) {
+            RectF transformedBoundingRect = new RectF();
+            mMatrix.mapRect(transformedBoundingRect, mBoundingRect);
+            return transformedBoundingRect;
+        } else {
+            return null;
+        }
+    }
+
+    public void setBoundingRect(RectF boundingRect) {
+        mBoundingRect = boundingRect;
+    }
+
     /**
      * Perform initialization on object that need to be performed on @see GameskiEngine.init()
      * This method is for any initializations can't occur in the constructor because you need
@@ -86,4 +102,15 @@ public abstract class GameObject {
      */
     public void draw(Canvas canvas) {}
 
+    /**
+     * Called by game engine with one GameObject collides with another in the scene.
+     * The game engine periodially checks whether GameObject have collided with each
+     * other.  This method is called to handle the collison situations.  This method
+     * will be called twice for each collision on both colliding objects.
+     *
+     * @param other The GameObject this one has collided with.
+     */
+    public void onCollision(GameObject other) {
+
+    }
 }

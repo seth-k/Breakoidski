@@ -23,6 +23,7 @@ public class Paddle extends GameObject {
     public Paddle() {
         super();
         mPaddleShape = new RectF(-HALF_PADDLE_WIDTH, -HALF_PADDLE_HEIGHT, HALF_PADDLE_WIDTH, HALF_PADDLE_HEIGHT);
+        mBoundingRect = mPaddleShape;
         mPaint.setColor(PADDLE_COLOR);
         mPaint.setStyle(Paint.Style.FILL);
     }

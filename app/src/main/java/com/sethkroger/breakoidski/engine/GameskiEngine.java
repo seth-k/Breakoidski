@@ -2,8 +2,11 @@ package com.sethkroger.breakoidski.engine;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.Log;
 import android.view.SurfaceHolder;
+
+import com.sethkroger.breakoidski.model.Ball;
 
 import java.util.List;
 
@@ -126,5 +129,21 @@ public class GameskiEngine {
 
     public static int getViewportWidth() {
         return ourInstance.mViewportDimens.width();
+    }
+
+    public static void checkCollisions(GameObject gameObject) {
+        List<GameObject> scene = ourInstance.mSceneObjects;
+        RectF bounds = gameObject.getBoundingRect();
+        if (bounds != null) {
+            for(GameObject other: scene) {
+                if (other != gameObject) {
+                    RectF otherBounds = other.getBoundingRect();
+                    if (otherBounds != null && RectF.intersects(bounds, otherBounds)) {
+                        gameObject.onCollision(other);
+                        other.onCollision(gameObject);
+                    }
+                }
+            }
+        }
     }
 }
