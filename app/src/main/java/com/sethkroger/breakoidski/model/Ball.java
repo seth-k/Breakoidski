@@ -60,9 +60,12 @@ public class Ball extends GameObject {
     }
 
     public void onCollision(GameObject other) {
+        // Bounce the ball off the paddle Arkanoid style (ie., a variable angle depending on how
+        // close to the center/edge. Center -> steep, edge -> shallow
         if (other instanceof Paddle && Math.signum(mVelocity.y) > 0.0f) {
             PointF paddlePos = other.getPosition();
-            float distanceFromCenter = (mPosition.x - paddlePos.x) / Paddle.HALF_PADDLE_WIDTH;
+            float paddleWidth = other.getBoundingRect().width() / 2.0f;
+            float distanceFromCenter = (mPosition.x - paddlePos.x) / paddleWidth;
             float newAngle = Math.signum(distanceFromCenter) * MIN_PADDLE_ANGLE
                     + (MAX_PADDLE_ANGLE - MIN_PADDLE_ANGLE) * distanceFromCenter;
             setTrajectory(newAngle);
