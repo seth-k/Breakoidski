@@ -41,8 +41,7 @@ public class GameskiEngine {
                 }
                 mViewPort.unlockCanvasAndPost(canvas);
 
-//                long sleepTime = MINIMUM_FRAME_TIME - (lastFrameTime - previousFrameTime);
-//                Log.d("EngineSleepTime", String.valueOf(lastFrameTime - previousFrameTime));
+//                long sleepTime = MINIMUM_FRAME_TIME - (System.currentTimeMillis() - lastFrameTime);
 //                if (sleepTime > 0) {
 //                    try {
 //                        Thread.sleep(sleepTime);
@@ -67,7 +66,6 @@ public class GameskiEngine {
 
     /**
      * Get the time from the previous frame/update
-     * TODO Make a real implementation instead of fake
      * @return Time since the last frame in seconds.
      */
     public static float getFrameTimeDelta() {
