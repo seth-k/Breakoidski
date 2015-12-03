@@ -34,7 +34,7 @@ public abstract class GameObject {
      * By default, updates the position by the current velocity.
      */
     public void update() {
-        float timeDelta = GameskiEngine.getFrameTimeDelta();
+        float timeDelta = GameskiEngine.getInstance().getFrameTimeDelta();
         setPosition(mPosition.x + mVelocity.x * timeDelta, mPosition.y + mVelocity.y * timeDelta);
     }
 

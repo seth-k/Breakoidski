@@ -8,9 +8,15 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.sethkroger.breakoidski.engine.GameObject;
+import com.sethkroger.breakoidski.engine.GameskiEngine;
 import com.sethkroger.breakoidski.engine.Input;
 import com.sethkroger.breakoidski.model.Ball;
+import com.sethkroger.breakoidski.model.GameBackground;
 import com.sethkroger.breakoidski.model.Paddle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Custom view that holds the main game canvas
@@ -22,8 +28,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Context mContext;
     private SurfaceHolder mHolder;
 
-    private Paddle mPaddle;
-    private Ball mBall;
+    private final GameskiEngine mEngine = GameskiEngine.getInstance();
+
+    private Paddle mPaddle = new Paddle();
+    private Ball mBall = new Ball();
 
 
     public GameView(Context context, AttributeSet attrs) {
@@ -32,17 +40,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         mHolder = getHolder();
         mHolder.addCallback(this);
 
-        mPaddle = new Paddle();
-        mBall = new Ball();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         boolean handled = Input.onTouchEvent(event);
-        if (handled) {
-            update();
-            draw();
-        }
+
         return handled;
     }
 
@@ -82,7 +85,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-
+        List<GameObject> scene = new ArrayList<>();
+        scene.add(new GameBackground());
+        scene.add(mPaddle);
+        scene.add(mBall);
+        mEngine.init(holder, scene);
+        mEngine.start();
     }
 
     @Override
@@ -93,6 +101,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-
+        mEngine.stop();
     }
 }
