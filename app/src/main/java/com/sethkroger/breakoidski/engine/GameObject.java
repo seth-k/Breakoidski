@@ -17,6 +17,10 @@ public abstract class GameObject {
     public GameObject() {
     }
 
+    public PointF getPosition() {
+        return mPosition;
+    }
+
     /**
      * Put the paddle at the screen position (x,y)
      *
@@ -29,12 +33,47 @@ public abstract class GameObject {
         mPosition.y = y;
     }
 
+    public Paint getPaint() {
+        return mPaint;
+    }
+
+    public void setPaint(Paint paint) {
+        mPaint = paint;
+    }
+
+    public void setPosition(PointF position) {
+        mPosition = position;
+        mMatrix.setTranslate(position.x, position.y);
+    }
+
+    public PointF getVelocity() {
+        return mVelocity;
+    }
+
+    public void setVelocity(PointF velocity) {
+        mVelocity = velocity;
+    }
+
+    public void setVeloicty(float vx, float vy) {
+        mVelocity.x = vx;
+        mVelocity.y = vy;
+    }
+
+    /**
+     * Perform initialization on object that need to be performed on @see GameskiEngine.init()
+     * This method is for any initializations can't occur in the constructor because you need
+     * properties of the engine or scene.  Does nothing by default.
+     */
+    public void init() {
+
+    }
+
     /**
      * Update the game object for every frame.
      * By default, updates the position by the current velocity.
      */
     public void update() {
-        float timeDelta = GameskiEngine.getInstance().getFrameTimeDelta();
+        float timeDelta = GameskiEngine.getFrameTimeDelta();
         setPosition(mPosition.x + mVelocity.x * timeDelta, mPosition.y + mVelocity.y * timeDelta);
     }
 
@@ -46,4 +85,5 @@ public abstract class GameObject {
      * @param canvas The android.graphics.Canvas object to draw to.
      */
     public void draw(Canvas canvas) {}
+
 }

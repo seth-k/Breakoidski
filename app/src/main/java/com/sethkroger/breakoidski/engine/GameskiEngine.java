@@ -1,6 +1,7 @@
 package com.sethkroger.breakoidski.engine;
 
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -13,9 +14,10 @@ public class GameskiEngine {
 
     public static final int MINIMUM_FRAME_TIME = 16;
     private long lastFrameTime;
-    private long mTimeDelta;
+    private float mTimeDelta;
 
     private SurfaceHolder mViewPort;
+    private Rect mViewportDimens;
     private List<GameObject> mSceneObjects;
 
     private boolean isRunning = false;
@@ -26,7 +28,8 @@ public class GameskiEngine {
             while (isRunning) {
                 Canvas canvas = null;
                 long now = System.currentTimeMillis();
-                mTimeDelta = now - lastFrameTime;
+                mTimeDelta = (float) ((now - lastFrameTime) / 1000.0);
+                lastFrameTime = now;
 
                 canvas = mViewPort.lockCanvas();
                 for (GameObject go: mSceneObjects) {
@@ -64,8 +67,8 @@ public class GameskiEngine {
      * TODO Make a real implementation instead of fake
      * @return Time since the last frame in seconds.
      */
-    public float getFrameTimeDelta() {
-        return (float) (mTimeDelta / 1000.0);
+    public static float getFrameTimeDelta() {
+        return ourInstance.mTimeDelta;
     }
 
     /**
@@ -77,6 +80,10 @@ public class GameskiEngine {
         mViewPort = viewport;
         mSceneObjects = scene;
         validateEngineState();
+        mViewportDimens = viewport.getSurfaceFrame();
+        for(GameObject go: scene) {
+            go.init();
+        }
     }
 
     /**
@@ -113,4 +120,11 @@ public class GameskiEngine {
     }
 
 
+    public static int getViewportHeight() {
+        return ourInstance.mViewportDimens.height();
+    }
+
+    public static int getViewportWidth() {
+        return ourInstance.mViewportDimens.width();
+    }
 }
