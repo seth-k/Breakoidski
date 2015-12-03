@@ -22,7 +22,7 @@ public class Brick extends GameObject {
      * Creates a Paddle with default size and styling.
      */
     public Brick() {
-        Brick(BRICK_HALF_WIDTH, BRICK_HALF_HEIGHT, DEFAULT_BRICK_COLOR);
+        this(BRICK_HALF_WIDTH, BRICK_HALF_HEIGHT, DEFAULT_BRICK_COLOR);
     }
 
     public Brick(float x, float y, int color) {
