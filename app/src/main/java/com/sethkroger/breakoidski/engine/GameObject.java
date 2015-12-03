@@ -12,7 +12,6 @@ public abstract class GameObject {
     protected Matrix mMatrix = new Matrix();
     protected PointF mPosition = new PointF(0.0f, 0.0f);
     protected PointF mVelocity = new PointF(0.0f, 0.0f);
-    protected PointF mAccel = new PointF(0.0f, 0.0f);
     protected Paint mPaint = new Paint();
 
     public GameObject() {
@@ -31,14 +30,20 @@ public abstract class GameObject {
     }
 
     /**
-     * Performs the periodic update as required by the game engine.
+     * Update the game object for every frame.
+     * By default, updates the position by the current velocity.
      */
-    public abstract void update();
+    public void update() {
+        float timeDelta = GameskiEngine.getFrameTimeDelta();
+        setPosition(mPosition.x + mVelocity.x * timeDelta, mPosition.y + mVelocity.y * timeDelta);
+    }
 
     /**
-     * Draw the paddle at its current location.
+     * Draw the game object.
+     * The default implementation does nothing.  Should be overridden by descendant to draw itself
+     * if it is an object to be drawn on screen.
      *
      * @param canvas The android.graphics.Canvas object to draw to.
      */
-    public abstract void draw(Canvas canvas);
+    public void draw(Canvas canvas) {}
 }
